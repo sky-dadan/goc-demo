@@ -1,12 +1,11 @@
 from app.api.routers import  router
-from sqlalchemy.orm import  Session
-from app.db.events import get_db
-from fastapi import Depends
+from app.db.events import connection_db
 from app.api.troubletype.schema import TroubleTypeCreate
 from app.models.models import TroubleType
 
 import traceback
 
+db = connection_db()
 
 @router.get("/troubletype/hello")
 async def hello():
@@ -14,7 +13,7 @@ async def hello():
 
 
 @router.get("/troubletype/{troubletype_id}")
-async def get_troubletype(troubletype_id:int, db: Session = Depends(get_db)):
+async def get_troubletype(troubletype_id:int):
     try:
         db_obj = db.query(TroubleType).filter_by(id=troubletype_id).first()
         return {"code":200, "data":db_obj}
@@ -25,7 +24,7 @@ async def get_troubletype(troubletype_id:int, db: Session = Depends(get_db)):
 
 
 @router.get("/troubletypes")
-async def get_troubletypes(db: Session = Depends(get_db)):
+async def get_troubletypes():
     try:
         db_objs = db.query(TroubleType).all()
         return {"code":200, "data":db_objs}
@@ -35,7 +34,7 @@ async def get_troubletypes(db: Session = Depends(get_db)):
 
 
 @router.post("/troubletype")
-async def create_troubletype(item: TroubleTypeCreate, db: Session = Depends(get_db)):
+async def create_troubletype(item: TroubleTypeCreate):
     try:
         db_obj = db.query(TroubleType).filter_by(name=item.name).first()
         if db_obj:

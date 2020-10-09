@@ -1,15 +1,14 @@
 from app.api.routers import router
-from sqlalchemy.orm import Session
-from fastapi import  Depends
 from app.models.models import Trouble
-from app.db.events import get_db
 from app.api.trouble import schema
+from app.db.events import connection_db
 
 import traceback
 import time
 
+db = connection_db()
 @router.get("/trouble/{trouble_id}")
-async def read_troulbe(trouble_id: int, db: Session = Depends(get_db)):
+async def read_troulbe(trouble_id: int):
     try:
         trouble_obj = db.query(Trouble).filter_by(id=trouble_id).first()
         result = trouble_obj.item_to_json()
@@ -23,7 +22,7 @@ async def read_troulbe(trouble_id: int, db: Session = Depends(get_db)):
 
 
 @router.get('/troubles')
-async def get_troubles(db: Session = Depends(get_db)):
+async def get_troubles():
     try:
         trouble_objs = db.query(Trouble).all()
         result = []
@@ -40,7 +39,7 @@ async def get_troubles(db: Session = Depends(get_db)):
 
 
 @router.put("/trouble")
-async def update_trouble(db: Session = Depends(get_db)):
+async def update_trouble():
     try:
         trouble_obj = db.query(Trouble).filter_by(id=1).first()
         print(Trouble.item_to_json(trouble_obj))
@@ -56,7 +55,7 @@ async def update_trouble(db: Session = Depends(get_db)):
 
 
 @router.post("/trouble")
-async def create_trouble(item: schema.TroubleCreate,db: Session = Depends(get_db)):
+async def create_trouble(item: schema.TroubleCreate):
     try:
         db_trouble = Trouble(department_id=item.department_id, troubletype_id=item.troubletype_id,title=item.title,
                              createtime=time.strftime("%Y-%m-%d %H:%M:%S"))

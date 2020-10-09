@@ -25,9 +25,12 @@ def get_db():
         db.close()
 
 
-# def connection_db():
-#     print(SQLALCHEMY_DATABASE_URL)
-#     engine = create_engine(SQLALCHEMY_DATABASE_URL)
-#     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-#     db = SessionLocal()
-#     return db
+def connection_db():
+    try:
+        logger.info("Connection  to database")
+        engine = create_engine(SQLALCHEMY_DATABASE_URL)
+        SessionLocal = sessionmaker(bind=engine)
+        db = SessionLocal()
+        return db
+    finally:
+        db.close()

@@ -1,20 +1,20 @@
 from app.api.routers import router
 from sqlalchemy.orm import Session
-from fastapi import  Depends
 from app.models.models import Department
-from app.db.events import get_db
 from app.api.department.schema import DepartmentCreate
+from app.db.events import connection_db
 
 import traceback
 import time
 
+db = connection_db()
 @router.get("/department/hello")
 async def hello():
     return "hello, department"
 
 
 @router.get("/department/{department_id}")
-async def department(department_id:int, db: Session = Depends(get_db)):
+async def department(department_id:int):
     try:
         dep_obj = db.query(Department).filter_by(id = department_id).first()
         return  dep_obj
@@ -24,7 +24,7 @@ async def department(department_id:int, db: Session = Depends(get_db)):
 
 
 @router.get("/departments")
-async def get_departments(db: Session = Depends(get_db)):
+async def get_departments():
     try:
         dep_objs = db.query(Department).all()
         return {"code":200, "data":dep_objs}
@@ -34,7 +34,7 @@ async def get_departments(db: Session = Depends(get_db)):
 
 
 @router.post("/department")
-async  def create_department(item:DepartmentCreate, db: Session = Depends(get_db)):
+async  def create_department(item:DepartmentCreate):
     try:
         db_department = db.query(Department).filter_by(name=item.name).first()
         if db_department:
@@ -50,7 +50,7 @@ async  def create_department(item:DepartmentCreate, db: Session = Depends(get_db
 
 
 @router.delete("/department/{department_id}")
-async def delete_department(department_id: int, db: Session = Depends(get_db)):
+async def delete_department(department_id: int):
     try:
         pass
     except:

@@ -1,0 +1,11 @@
+
+
+
+
+
+
+#mysql配置
+MYSQL_HOST = "172.21.192.240"
+MYSQL_PORT = 3306
+MYSQL_USER = "root"
+MYSQL_PASSWD = "Zabbix_2018"

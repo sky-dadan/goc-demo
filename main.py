@@ -1,12 +1,18 @@
 import uvicorn
 from fastapi import FastAPI, Depends
-from sqlalchemy.orm import  Session
-from app.db.events import  get_db
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import routers
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = ["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(routers.router,prefix="/apiv1")
 
 

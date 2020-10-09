@@ -17,7 +17,7 @@ async def hello():
 async def get_troubletype(troubletype_id:int, db: Session = Depends(get_db)):
     try:
         db_obj = db.query(TroubleType).filter_by(id=troubletype_id).first()
-        return db_obj
+        return {"code":200, "data":db_obj}
 
     except:
         print(traceback.format_exc())
@@ -28,7 +28,7 @@ async def get_troubletype(troubletype_id:int, db: Session = Depends(get_db)):
 async def get_troubletypes(db: Session = Depends(get_db)):
     try:
         db_objs = db.query(TroubleType).all()
-        return db_objs
+        return {"code":200, "data":db_objs}
     except:
         print(traceback.format_exc())
         return {"code": 500, "msg": traceback.format_exc()}
@@ -44,7 +44,7 @@ async def create_troubletype(item: TroubleTypeCreate, db: Session = Depends(get_
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
-        return db_obj
+        return {"code":200, "data":db_obj}
     except:
         print(traceback.format_exc())
         return {"code": 500, "msg": traceback.format_exc()}

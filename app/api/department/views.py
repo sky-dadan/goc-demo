@@ -27,7 +27,7 @@ async def department(department_id:int, db: Session = Depends(get_db)):
 async def get_departments(db: Session = Depends(get_db)):
     try:
         dep_objs = db.query(Department).all()
-        return dep_objs
+        return {"code":200, "data":dep_objs}
     except:
         print(traceback.format_exc())
         return {"code": 500, "msg": traceback.format_exc()}

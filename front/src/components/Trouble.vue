@@ -53,7 +53,7 @@ export default {
   },
   created: function(){
     console.log(this.nums)
-    axios.get("http://127.0.0.1:8000/apiv1/troubles", {
+    axios.get("http://goc.xsts.xyz/apiv1/troubles", {
       params:{}
     }).then((res) =>{
       this.troublelist = res.data.data

@@ -39,7 +39,7 @@ export default {
     }
   },
   created() {
-    axios.get("http://127.0.0.1:8000/apiv1/departments").then(
+    axios.get("/apiv1/departments").then(
       (res) => {
         this.departments = res.data.data
       }

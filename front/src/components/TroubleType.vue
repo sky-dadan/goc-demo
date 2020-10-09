@@ -66,7 +66,7 @@ export default {
     }
   },
   created() {
-    axios.get("http://127.0.0.1:8000/apiv1/troubletypes").then(
+    axios.get("http://goc.xsts.xyz/apiv1/troubletypes").then(
       (res) => {
         this.troubletypes = res.data.data
       }
